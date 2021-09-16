@@ -19,7 +19,7 @@ def init():                                     # função primaria para captura
     cj_F = input().split(' ')
     n_transicoes = int(input())
 
-    
+
 def get_transicoes():                           # capturar todas as transições de acordo com o numero de transicoes informadas.
     global transicoes
     while len(transicoes) < n_transicoes:
@@ -44,8 +44,3 @@ if __name__ == "__main__":
     get_cadeias()
     aceitacao = list(map(int, cj_F[1:]))
     
-    for i in range(n_cadeias):                         # será avaliado as n cadeias inseridas
-        if(avaliar_cadeia(cadeias[i],estado_inicial)): # dado o valor de retorno, imprime se a cadeia é ou não aceita.
-            print("aceita")
-        else:
-            print("rejeita")
