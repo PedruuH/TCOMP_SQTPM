@@ -12,6 +12,10 @@ cadeias = []                        # lista que conterá as cadeias que serão a
 aceitacao = None                    # usada para avaliação da aceitacao das cadeias
 nSimbolosTerminais = None           # quantidade de simbolos terminais
 SimbolosTerminais = None            # lista de transições
+nS_pilha = None                     # numero de simbolos na pilha
+lista_pilha = None                  # lista de simbolos da pilha
+estado_inicial = 0                  # estado incial no q0
+
 
 
 def init():                                     # função primaria para captura 
@@ -36,7 +40,8 @@ def get_cadeias():                             # capturar as cadeias que serão 
         aux = list(input())
         cadeias.append(aux)
 
-
+def avaliar_cadeia (w_atual, estadoAtual, pilha):
+    
 
 
 
@@ -47,6 +52,13 @@ if __name__ == "__main__":
     n_cadeias = int(input())                    # obter o numero c de cadeias
     get_cadeias()
     aceitacao = list(map(int, cj_F[1:]))
-    nSimbolosTerminais = simbolos_t[0]
+    nSimbolosTerminais = simbolos_t[0] 
     SimbolosTerminais = simbolos_t[1:]
+
+    for i in range(n_cadeias):                         # será avaliado as n cadeias inseridas
+        if(avaliar_cadeia(cadeias[i],estado_inicial,['Z'])): # dado o valor de retorno, imprime se a cadeia é ou não aceita.
+            print("aceita")
+        else:
+            print("rejeita")
+
     
