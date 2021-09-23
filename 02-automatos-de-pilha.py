@@ -40,15 +40,15 @@ def get_cadeias():                             # capturar as cadeias que serão 
         aux = list(input())
         cadeias.append(aux)
 
-def tratar_pilha (cadeia, estado, pilha, newPilha):
-    if(newPilha == ['-']):
+def tratar_pilha (cadeia, estado, pilha, newPilha): #tratamos a pilha e empilhamento/desempilhamento
+    if(newPilha == ['-']):      # caso seja vazio, apanas deletamos o topo da pilha
         aux = pilha.pop()
         if(avaliar_cadeia(cadeia,estado,pilha)):
             return True
-        else:
+        else:                   # retorna o topo da pilha caso a avaliação da cadeia for rejeitada
             pilha.append(aux)
 
-    elif(newPilha != ['-']):
+    elif(newPilha != ['-']):    # se não for vazio, substituimos o topo da pilha pelos simbolos relativos à transição
         empilha = newPilha[::-1]
         aux = pilha.pop()
         NovaPilha = pilha + empilha
@@ -70,25 +70,25 @@ def avaliar_cadeia (w_atual, estadoAtual, pilha):
         topo_pilha = t_atual[2] # pega o que deve estar no topo da pilha para aceitar a transição
 
         if(w_atual == [] or w_atual ==['-']):
-            if(w_atual in aceitacao): 
-                return True
+            if(w_atual in aceitacao): # verifico se a cadeia atual for vazia ou com E e estiver no estado de aceitação
+                return True           # então a cadeia é aceita
 
             elif ( (estado_inicial == estadoAtual) and (list(simbolo) == ['-']) and (topo_pilha == top_pilha)):
-              newState = int(t_atual[3])
-              newPilha = list(t_atual[4])
+              newState = int(t_atual[3])    # percorremos transições vazias para ver outros estados atingidos
+              newPilha = list(t_atual[4])   # assim, pegamos o estado atingido e os simbolos a serem empilhados
 
-              if(tratar_pilha(w_atual, newState, pilha,newPilha)): 
+              if(tratar_pilha(w_atual, newState, pilha,newPilha)): #tratamos a pilha e empilhamento/desempilhamento
                 return True
-              if(newState in aceitacao): 
+              if(newState in aceitacao): #caso o novo estado atigido for de aceitação, aceitamos a cadeia
                 return True          
 
-        elif(w_atual !=[]):
-            if((estado_inicial == estadoAtual) and (topo_pilha == top_pilha)):
-                if(simbolo == simboloAtual):
-                    if(tratar_pilha(w_atual[1:],int(t_atual[3]), pilha, list(t_atual[4]))):
-                        return True
+        elif(w_atual !=[]): # vamos percorrer outras cadeias que não percorremos totalmente
+            if((estado_inicial == estadoAtual) and (topo_pilha == top_pilha)): 
+                if(simbolo == simboloAtual):                                                   #se o simbolo atual for o mesmo na transição
+                    if(tratar_pilha(w_atual[1:],int(t_atual[3]), pilha, list(t_atual[4]))):    # iremos verificar a pilha, se os simbolos coincidem
+                        return True                                                            # e quando dentro da avaliação da pilha chamar novamente a funcão de avaliação, o caminho será verificado
                 elif(list(simbolo) ==['-']):
-                    if(tratar_pilha(w_atual,int(t_atual[3]), pilha, list(t_atual[4]))):
+                    if(tratar_pilha(w_atual,int(t_atual[3]), pilha, list(t_atual[4]))):         # Caso o simbolo da cadeia for vazio, iremos seguir a transição e não percorrer a cadeia
                         return True
     return False
 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     
 
     for i in range(n_cadeias):                         # será avaliado as n cadeias inseridas
-        if(avaliar_cadeia(cadeias[i],0,['Z'])): # dado o valor de retorno, imprime se a cadeia é ou não aceita.
+        if(avaliar_cadeia(cadeias[i],estado_inicial,['Z'])): # dado o valor de retorno, imprime se a cadeia é ou não aceita.
             print("aceita")
         else:
             print("rejeita")
