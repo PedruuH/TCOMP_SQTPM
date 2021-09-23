@@ -72,7 +72,8 @@ def avaliar_cadeia (w_atual, estadoAtual, pilha):
         if(w_atual == [] or w_atual ==['-']):
             if(w_atual in aceitacao): 
                 return True
-            elif ( (estado_inicial == estadoAtual) and (list(simbolo)==['-']) and topo_pilha == top_pilha):
+
+            elif ( (estado_inicial == estadoAtual) and (list(simbolo) == ['-']) and (topo_pilha == top_pilha)):
               newState = int(t_atual[3])
               newPilha = list(t_atual[4])
 
@@ -82,11 +83,11 @@ def avaliar_cadeia (w_atual, estadoAtual, pilha):
                 return True          
 
         elif(w_atual !=[]):
-            if(estado_inicial == estadoAtual and topo_pilha == top_pilha):
+            if((estado_inicial == estadoAtual) and (topo_pilha == top_pilha)):
                 if(simbolo == simboloAtual):
                     if(tratar_pilha(w_atual[1:],int(t_atual[3]), pilha, list(t_atual[4]))):
                         return True
-                elif(list(simbolo ==['-'])):
+                elif(list(simbolo) ==['-']):
                     if(tratar_pilha(w_atual,int(t_atual[3]), pilha, list(t_atual[4]))):
                         return True
     return False
@@ -99,8 +100,7 @@ if __name__ == "__main__":
     n_cadeias = int(input())                    # obter o numero c de cadeias
     get_cadeias()
     aceitacao = list(map(int, cj_F[1:]))
-    nSimbolosTerminais = simbolos_t[0] 
-    SimbolosTerminais = simbolos_t[1:]
+    
 
     for i in range(n_cadeias):                         # será avaliado as n cadeias inseridas
         if(avaliar_cadeia(cadeias[i],0,['Z'])): # dado o valor de retorno, imprime se a cadeia é ou não aceita.
