@@ -31,7 +31,7 @@ def get_transicoes():                           # capturar todas as transições
     global transicoes
     while len(transicoes) < n_transicoes:
         aux = input()
-        aux = aux.split()
+        aux = aux.split(' ')
         transicoes.append(aux)
 
 def get_cadeias():                             # capturar as cadeias que serão avaliadas
@@ -40,9 +40,49 @@ def get_cadeias():                             # capturar as cadeias que serão 
         aux = list(input())
         cadeias.append(aux)
 
-def avaliar_cadeia (w_atual, estadoAtual, pilha):
-    
+def tratar_pilha (cadeia, estado, pilha, newPilha):
+    if(newPilha == ['-']):
+        aux = pilha.pop()
+        if(avaliar_cadeia(cadeia,estado,pilha)):
+            return True
+        else:
+            pilha.append(aux)
 
+    elif(newPilha != ['-']):
+        empilha = newPilha[::-1]
+        aux = pilha.pop()
+        NovaPilha = pilha + empilha
+        if(avaliar_cadeia(cadeia,estado,NovaPilha)):
+            return True
+        else:
+            pilha.append(aux)
+
+def avaliar_cadeia (w_atual, estadoAtual, pilha):
+    global transicoes, aceitacao
+           
+    for i in range(len(transicoes)):
+        t_atual = transicoes[i] #pega cada trnasição
+        top_pilha = pilha[-1] #pega o topo da pilha 'Z'
+        estado_inicial = int(t_atual[0]) #pega o estado inicial daquela transição
+        simbolo = t_atual[1] # pega o simbolo que será consumido naquela transição
+        topo_pilha = t_atual[2] # pega o que deve estar no topo da pilha para aceitar a transição
+
+        if(w_atual == [] or w_atual ==['-']):
+            if(w_atual in aceitacao): 
+                return True
+            elif ( (estado_inicial == estadoAtual) and (list(simbolo)==['-']) and topo_pilha == topo_pilha):
+              newState = int(t_atual[3])
+              newPilha = list(t_atual[4])
+
+              if(tratar_pilha(w_atual, newState, pilha,newPilha)): return True
+              if(newState in aceitacao): return True          
+
+        elif(w_atual !=[]):
+            if(estado_inicial == estadoAtual and topo_pilha == top_pilha):
+                if(simbolo == w_atual[0]):
+                    if(tratar_pilha(w_atual[1:],int(t_atual[3], pilha, list(t_atual[4])))):
+                        return True
+    return False
 
 
 
